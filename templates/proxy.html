@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <title>Sandcat | 54ndc47</title>
+        <link rel="shortcut icon" type="image/png" href="/gui/img/favicon.png"/>
+        <link rel="stylesheet" href="/gui/css/shared.css">
+        <link rel="stylesheet" href="/gui/css/navbar.css">
+        <link rel="stylesheet" href="/proxy/css/basic.css">
+    </head>
+    <body style="margin-bottom: 100px">
+        <div class="topnav">
+          <a href="/">Home</a>
+          <a href="/plugin/proxy/gui" class="active">Proxy</a>
+          <div class="topnav-right">
+            <a href="/logout">Logout</a>
+          </div>
+        </div>
+        <div>
+            <div class="row" style="background-color: inherit">
+                <div class="column" style="flex: 100%;margin-top:50px;">
+                    <center>
+                        <div class="proxy" style="float:left">
+                            <form>
+                                <select id="proxy_name" name="proxy_name" >
+                                    <option>Select a proxy type</option>
+                                    {% for p in proxy_types %}
+                                    <option id="{{ p }}">p</option>
+                                    {% end for %}
+                                </select>
+                            </form>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="/gui/jquery/jquery.js"></script>
+</html>
