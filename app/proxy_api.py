@@ -5,12 +5,12 @@ from plugins.proxy.app.proxy_svc import ProxyService
 
 class ProxyApi:
 
-    def __init__(self, services):
-        self.proxy_svc = ProxyService(services)
+    def __init__(self):
+        self.proxy_svc = ProxyService()
 
     @template('proxy.html')
     async def landing(self, request):
-        return dict(proxy_types=self.proxy_svc.get_available_proxy_types())
+        return dict(proxy_types=await self.proxy_svc.get_available_proxy_types())
 
     async def rest_api(self, request):
         data = dict(await request.json())

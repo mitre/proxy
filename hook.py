@@ -1,7 +1,12 @@
+from plugins.proxy.app.proxy_api import ProxyApi
+
 name = 'Proxy'
 description = 'Spawn a reverse proxy service in front of the Caldera app'
-address = None
+address = '/plugin/proxy/gui'
 
 
 async def initialize(app, services):
-    pass
+    proxy_api = ProxyApi()
+    services.get('auth_svc').set_unauthorized_static('/proxy', 'plugins/proxy/static', append_version=True)
+    services.get('auth_svc').set_authorized_route('GET', '/plugin/proxy/gui', proxy_api.landing)
+    services.get('auth_svc').set_authorized_route('*', '/plugin/proxy/rest', proxy_api.rest_api)

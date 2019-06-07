@@ -5,7 +5,7 @@ from subprocess import Popen
 
 class ProxyService:
 
-    def __init__(self, services):
+    def __init__(self):
         pass
 
     def spawn_proxy_service(proxy, conf_path):
@@ -38,4 +38,5 @@ class ProxyService:
 
     @staticmethod
     async def get_available_proxy_types():
-        return [t.split('.')[0] for t in os.listdir(os.path.abspath('templates')) if '.conf' in t]
+        return [t.split('.')[0] for t in os.listdir(os.path.abspath(os.path.join('plugins', 'proxy', 'templates')))
+                if '.conf' in t]
