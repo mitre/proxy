@@ -18,7 +18,7 @@ class ProxyApi:
         index = data.pop('index')
         options = dict(
             POST=dict(
-                create_proxy=lambda d: self._launch_proxy(request=request, proxy=d)
+                create_proxy=lambda d: self._create_proxy(request=request, proxy_conf=d)
             )
         )
         output = await options[request.method][index](data)
@@ -26,9 +26,12 @@ class ProxyApi:
 
     """ PRIVATE """
 
-    async def _launch_proxy(self, request, proxy):
+    async def _create_proxy(self, request, proxy_conf):
         env = request.app[aiohttp_jinja2.APP_KEY]
-        rendered = await self.proxy_svc.render_proxy_config(env, proxy)
-        if rendered:
+        rendered = await self.proxy_svc.render_proxy_config(env, proxy_conf)
+        if rendered and proxy_conf['launch_proxy']:
+            proxy_process = await self.proxy_svc.spawn_proxy_service(rendered, proxy_conf)
+            return dict(config=rendered, proxy_pid=proxy_process.pid)
+        elif rendered:
             return dict(config=rendered)
         return None
