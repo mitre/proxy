@@ -13,15 +13,9 @@ class ProxyApi:
     async def landing(self, request):
         return dict(proxy_types=await self.proxy_svc.get_available_proxy_types())
 
-    async def rest_api(self, request):
+    async def build_proxy(self, request):
         data = dict(await request.json())
-        index = data.pop('index')
-        options = dict(
-            POST=dict(
-                create_proxy=lambda d: self._create_proxy(request=request, proxy_conf=d)
-            )
-        )
-        output = await options[request.method][index](data)
+        output = await self._create_proxy(request=request, proxy_conf=data)
         return web.json_response(output)
 
     """ PRIVATE """
@@ -31,7 +25,9 @@ class ProxyApi:
         rendered = await self.proxy_svc.render_proxy_config(env, proxy_conf)
         if rendered and proxy_conf['launch_proxy']:
             proxy_process = await self.proxy_svc.spawn_proxy_service(rendered, proxy_conf)
-            return dict(config=rendered, proxy_pid=proxy_process.pid)
+            proxy_dict = dict(config=rendered, proxy_pid=proxy_process.pid)
         elif rendered:
-            return dict(config=rendered)
-        return None
+            proxy_dict = dict(config=rendered)
+        else:
+            proxy_dict = None
+        return proxy_dict

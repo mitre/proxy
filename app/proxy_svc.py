@@ -4,9 +4,6 @@ from subprocess import Popen
 
 class ProxyService:
 
-    def __init__(self):
-        pass
-
     async def spawn_proxy_service(self, rendered, proxy_conf):
         path = await self._save_proxy_config(rendered, proxy_conf)
         proxy_args = [proxy_conf['proxy_name'], '-V', '-f', path]

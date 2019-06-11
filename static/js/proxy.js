@@ -1,4 +1,4 @@
-function restRequest(type, data, callback, endpoint='/plugin/proxy/rest') {
+function restRequest(type, data, callback, endpoint='/plugin/proxy/build') {
     $.ajax({
        url: endpoint,
        type: type,

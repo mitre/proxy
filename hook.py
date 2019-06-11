@@ -9,4 +9,4 @@ async def initialize(app, services):
     proxy_api = ProxyApi()
     services.get('auth_svc').set_unauthorized_static('/proxy', 'plugins/proxy/static', append_version=True)
     services.get('auth_svc').set_authorized_route('GET', '/plugin/proxy/gui', proxy_api.landing)
-    services.get('auth_svc').set_authorized_route('*', '/plugin/proxy/rest', proxy_api.rest_api)
+    services.get('auth_svc').set_authorized_route('POST', '/plugin/proxy/build', proxy_api.build_proxy)
